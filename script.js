@@ -104,3 +104,44 @@ for (let i = 0; i < gridSize; i++) {
         grid[i][j] = '';
     }
 }
+// Manejar la selección de una celda
+function seleccionarCelda(fila, col) {
+    const celda = document.getElementById(`cell-${fila}-${col}`);
+    celda.classList.toggle('seleccionada');
+
+    // Añadir o remover la celda seleccionada
+    const index = seleccion.findIndex(pos => pos[0] === fila && pos[1] === col);
+    if (index > -1) {
+        seleccion.splice(index, 1);
+    } else {
+        seleccion.push([fila, col]);
+    }
+
+    // Verificar si la selección forma una palabra válida
+    verificarPalabra();
+}
+function verificarPalabra() {
+    const palabraSeleccionada = seleccion.map(pos => grid[pos[0]][pos[1]]).join('');
+
+    if (palabras.includes(palabraSeleccionada)) {
+        seleccion.forEach(([fila, col]) => {
+            const celda = document.getElementById(`cell-${fila}-${col}`);
+            celda.classList.add('correcta');
+        });
+        seleccion = [];
+    // Añadir evento al botón "Rendirse"
+document.getElementById('botonRendirse').addEventListener('click', () => {
+    mostrarPalabrasOcultas();
+});
+        // Eliminar la palabra encontrada de la lista
+        const index = palabras.indexOf(palabraSeleccionada);
+        if (index > -1) {
+            palabras.splice(index, 1);
+        }
+
+        // Comprobar si todas las palabras han sido encontradas
+        if (palabras.length === 0) {
+            document.getElementById('mensajeVictoria').style.display = 'block';
+        }
+    }
+}
