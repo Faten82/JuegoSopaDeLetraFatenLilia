@@ -91,3 +91,16 @@ function colocarPalabraEnCuadricula(palabra) {
         }
     }
 }
+// Función para colocar todas las palabras en la cuadrícula
+function colocarPalabras() {
+    palabras.forEach(palabra => {
+        colocarPalabraEnCuadricula(palabra);
+    });
+}
+// Initialize empty grid
+for (let i = 0; i < gridSize; i++) {
+    grid[i] = [];
+    for (let j = 0; j < gridSize; j++) {
+        grid[i][j] = '';
+    }
+}
