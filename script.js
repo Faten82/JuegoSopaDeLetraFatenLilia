@@ -28,3 +28,37 @@ function inicializarCuadricula() {
     grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(''));
 }
 // No se si ves mis cambios
+
+// Función para verificar si una posición está libre para colocar una palabra
+function espacioLibre(fila, col, palabra, direccion) {
+    if (direccion === 0) { // Horizontal
+        if (col + palabra.length > gridSize) return false;
+        for (let i = 0; i < palabra.length; i++) {
+            if (grid[fila][col + i] !== '' && grid[fila][col + i] !== palabra[i]) {
+                return false;
+            }
+        }
+    } else if (direccion === 1) { // Vertical
+        if (fila + palabra.length > gridSize) return false;
+        for (let i = 0; i < palabra.length; i++) {
+            if (grid[fila + i][col] !== '' && grid[fila + i][col] !== palabra[i]) {
+                return false;
+            }
+        }
+    } else if (direccion === 2) { // Diagonal Descendente
+        if (fila + palabra.length > gridSize || col + palabra.length > gridSize) return false;
+        for (let i = 0; i < palabra.length; i++) {
+            if (grid[fila + i][col + i] !== '' && grid[fila + i][col + i] !== palabra[i]) {
+                return false;
+            }
+        }
+    } else if (direccion === 3) { // Diagonal Ascendente
+        if (fila - palabra.length + 1 < 0 || col + palabra.length > gridSize) return false;
+        for (let i = 0; i < palabra.length; i++) {
+            if (grid[fila - i][col + i] !== '' && grid[fila - i][col + i] !== palabra[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
