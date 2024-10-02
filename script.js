@@ -145,3 +145,57 @@ document.getElementById('botonRendirse').addEventListener('click', () => {
         }
     }
 }
+// Completar el grid con letras aleatorias en espacios vacíos
+for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+        if (grid[i][j] === '') {
+            grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        }
+    }
+}
+// Mostrar todas las palabras ocultas
+function mostrarPalabrasOcultas() {
+    const listaPalabras = document.getElementById('listaPalabras');
+    listaPalabras.innerHTML = '';
+    palabras.forEach(palabra => {
+        const li = document.createElement('li');
+        li.textContent = palabra;
+        listaPalabras.appendChild(li);
+    });
+    document.getElementById('palabrasOcultas').style.display = 'block';
+}
+// Inicializar el juego
+function inicializarJuego() {
+    seleccionarPalabras();
+    inicializarCuadricula();
+    colocarPalabras();
+}
+   // Mostrar la cuadrícula
+   const gridElement = document.getElementById('grid');
+   gridElement.innerHTML = '';
+   for (let i = 0; i < gridSize; i++) {
+       for (let j = 0; j < gridSize; j++) {
+           const cell = document.createElement('div');
+           cell.id = `cell-${i}-${j}`;
+           cell.className = 'cell';
+           cell.textContent = grid[i][j];
+           cell.addEventListener('click', () => seleccionarCelda(i, j));
+           gridElement.appendChild(cell);
+       }
+   }
+
+// Añadir evento al botón "Rendirse"
+document.getElementById('botonRendirse').addEventListener('click', () => {
+   mostrarPalabrasOcultas();
+});
+
+document.getElementById('botonReiniciar').addEventListener('click', () => {
+   document.getElementById('palabrasOcultas').style.display = 'none'; // Ocultar palabras ocultas
+   inicializarJuego(); // Reiniciar el juego
+});
+
+// Ejecutar inicialización cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+   inicializarJuego();
+});
+
